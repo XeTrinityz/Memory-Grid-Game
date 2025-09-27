@@ -5,8 +5,8 @@ A simple memory game
 ## Structure
 
 - `index.html` — Main HTML document linking the external CSS and JS.
-- `css/style.css` — All styles extracted from the original inline `<style>` block.
-- `js/app.js` — All game logic extracted from the original inline `<script>` block.
+- `css/style.css` — All styles.
+- `js/app.js` — All game logic.
 
 ## How to run
 
