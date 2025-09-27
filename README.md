@@ -14,5 +14,5 @@ A simple memory game
 
 ## Notes
 
-- Google Fonts are loaded via `@import` at the top of `css/style.css` as in the original file.
+- Google Fonts are loaded via `@import` at the top of `css/style.css`.
 - No external assets are required; all visuals are CSS and emoji-based.
