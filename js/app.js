@@ -43,6 +43,7 @@
   let startTime = null;
   let timeLeft = 0;
   let readyScrambleInterval = null;
+  const isCoarsePointer = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
   /* ---------- Utilities ---------- */
   function rand4() { 
@@ -81,6 +82,7 @@
       tile.className = 'tile';
       tile.setAttribute('data-index', i);
       tile.setAttribute('aria-label', `Number ${value}`);
+      tile.type = 'button';
       tile.textContent = value;
       tile.addEventListener('click', onTileClick);
       gridEl.appendChild(tile);
@@ -466,6 +468,10 @@
     if (!running) return;
     
     const tile = e.currentTarget;
+    // On touch devices, blur to prevent persistent focus highlight
+    if (isCoarsePointer) {
+      setTimeout(() => tile.blur(), 0);
+    }
     const value = tile.textContent;
     
     if (value === currentTarget) {

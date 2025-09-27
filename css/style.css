@@ -232,6 +232,8 @@ body::before {
   transition: all var(--transition-fast);
   position: relative;
   overflow: hidden;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .tile::before {
@@ -256,6 +258,15 @@ body::before {
 .tile:active {
   transform: translateY(0);
   box-shadow: var(--shadow-sm);
+}
+
+/* Prevent persistent focus/hover highlight on touch while preserving keyboard focus */
+.tile:focus { outline: none; }
+.tile:focus-visible { outline: 2px solid rgba(183, 255, 74, 0.5); outline-offset: 2px; }
+
+@media (hover: none) and (pointer: coarse) {
+  .tile:hover::before { opacity: 0; }
+  .tile:hover { transform: none; border-color: transparent; box-shadow: var(--shadow-sm); }
 }
 
 .tile:nth-child(odd) {
