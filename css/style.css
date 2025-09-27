@@ -57,6 +57,9 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100svh; /* ensure fit when browser UI is visible */
+  /* Use dynamic viewport height on iOS to prevent overflow behind browser chrome */
+  min-height: 100dvh;
   position: relative;
 }
 
@@ -678,71 +681,136 @@ body::before {
 
 /* Narrow phones and small devices */
 @media (max-width: 600px) {
-  .wrap {
-    padding: 16px;
-    margin: 8px;
-    width: 100vw;
+  /* Account for iOS notches and dynamic toolbars */
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: hidden; /* prevent overscroll */
+    height: 100dvh;   /* ensure full viewport height */
   }
+
+  .wrap {
+    padding: 12px;
+    padding-top: calc(12px + env(safe-area-inset-top));
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    margin: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
+    width: 100vw;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    height: 100dvh;
+    max-height: 100dvh;
+    box-sizing: border-box;
+  }
+
+  .header { margin-bottom: 12px; }
+  .logo { font-size: 22px; }
+  .level { font-size: 12px; }
+  .subtitle { display: none; }
 
   .target {
-    font-size: clamp(32px, 12vw, 48px);
-    letter-spacing: clamp(2px, 1.2vw, 6px);
-    padding: 12px 16px;
+    font-size: clamp(24px, 8.5vw, 36px);
+    letter-spacing: clamp(1px, 0.9vw, 4px);
+    padding: 8px 12px;
+    margin: 10px 0;
   }
 
+  .grid-container {
+    padding: 6px;
+    margin: 8px 0;
+    min-height: 0; /* allow to shrink within grid layout */
+    overflow: hidden; /* avoid inner scroll */
+  }
+
+  /* Keep 8 columns to minimize vertical rows on phones */
   .grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(8px, 2.5vw, 12px);
-    padding: clamp(10px, 3vw, 16px);
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: clamp(3px, 1.6vw, 7px);
+    padding: clamp(6px, 2vw, 10px);
+    min-height: 0; /* allow to shrink */
+    height: 100%;
+    grid-auto-rows: minmax(0, 1fr);
+    align-items: stretch;
   }
 
+  /* Shorter tiles to ensure full layout fits on screen */
   .tile {
-    height: auto;
-    aspect-ratio: 1 / 1;
-    font-size: clamp(14px, 4.2vw, 20px);
+    height: 100%;
+    font-size: clamp(11px, 3.2vw, 15px);
+    letter-spacing: 0.5px;
   }
 
   .controls {
-    gap: 10px;
+    gap: 8px;
   }
 
-  .streak-number {
-    font-size: 16px;
-  }
+  .streak-display { font-size: 12px; }
+  .streak-number { font-size: 14px; }
+  .game-info { display: none; }
 
   .btn {
     padding: 14px 20px;
     font-size: 16px;
   }
 
+  .progress-section { margin-top: 8px; }
+  .time-display { font-size: 11px; }
+
+  .progress-bar { height: 6px; }
+
   .modal {
     min-width: 0;
     width: calc(100vw - 32px);
     max-width: 520px;
     margin: 16px;
+    max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    overflow: auto;
   }
 }
 
 /* Extra-small phones */
 @media (max-width: 380px) {
   .wrap {
-    padding: 12px;
-    margin: 8px;
+    padding: 10px;
+    padding-top: calc(10px + env(safe-area-inset-top));
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    margin: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
+  }
+
+  .target {
+    font-size: clamp(24px, 9vw, 38px);
+    letter-spacing: clamp(1px, 0.8vw, 4px);
   }
 
   .grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    padding: 10px;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    padding: 8px;
   }
 
   .tile {
-    font-size: clamp(12px, 4.8vw, 18px);
+    height: clamp(24px, 5.4vw, 34px);
+    font-size: clamp(11px, 3.6vw, 15px);
   }
 
   .modal {
     width: calc(100vw - 20px);
     margin: 10px;
-    padding: 24px;
+    padding: 20px;
+    max-height: calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    overflow: auto;
   }
+}
+
+/* Very short portrait screens: tighten layout further */
+@media (max-width: 600px) and (orientation: portrait) and (max-height: 750px) {
+  .logo { display: none; }
+  .header { margin-bottom: 8px; }
+  .level { font-size: 11px; }
+  .target { font-size: clamp(22px, 7.5vw, 32px); padding: 6px 10px; margin: 8px 0; }
+  .grid { gap: clamp(2px, 1.2vw, 5px); padding: clamp(4px, 1.8vw, 8px); }
+  .tile { font-size: clamp(10px, 2.9vw, 14px); letter-spacing: 0.4px; }
+  .progress-bar { height: 4px; }
+  .progress-section { margin-top: 6px; }
 }
