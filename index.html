@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Memory Grid — Find & Remember</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="loading">
+  <div class="wrap" role="application" aria-label="Memory Grid Game">
+    <div class="header">
+      <div class="logo">MEMORY GRID</div>
+      <div class="level" id="levelText">Level 1 of 6</div>
+      <div class="target" id="target">0000</div>
+      <div class="subtitle">Find and click the matching 4-digit number</div>
+    </div>
+
+    <div class="grid-container">
+      <div class="grid" id="grid" aria-live="polite"></div>
+    </div>
+
+    <div class="controls">
+      <div class="streak-display">
+        <span>Progress:</span>
+        <span class="streak-number" id="streak">0</span>
+        <span>/ 6</span>
+      </div>
+      <div class="game-info" id="gameInfo">Choose your difficulty to begin</div>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-bar">
+        <div id="progress" class="progress-fill" style="width:100%"></div>
+      </div>
+      <div class="time-display" id="timeText">Ready to play</div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay" style="display:none">
+    <div class="modal" id="modal">
+      <h1 class="modal-title" id="modalTitle">Title</h1>
+      <div class="modal-body" id="modalBody">Body text goes here</div>
+      <div class="modal-actions">
+        <button class="btn" id="modalBtn" style="display:none">Action</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
